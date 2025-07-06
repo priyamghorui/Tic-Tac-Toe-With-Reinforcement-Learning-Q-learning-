@@ -517,7 +517,7 @@
                     } else if (data.result == "Agent Win") {
                       console.log("Agent Win");
                       const combo = findWinComboFromBoard("X"); // or "O" depending on who won
-                      showGameAlert("You Loss ! Agent Loss", "danger");
+                      showGameAlert("You Loss ! Agent Win", "danger");
 
                       if (combo) {
                         showWinLine(combo);
