@@ -137,7 +137,7 @@
 
            <p class="card-text">
         This project uses a <strong>Reinforcement Learning (Q-learning)</strong> agent trained through
-        <strong>500,000 self-play games</strong> when the agent plays <span class="text-success">first</span>,
+        <strong>10,00,000 self-play games</strong> when the agent plays <span class="text-success">first</span>,
         and <strong>100,000 games</strong> when it plays <span class="text-danger">second</span>, both against a simulated opponent.
         The agent learns optimal moves by updating a <strong>Q-table</strong> based on game rewards.
       </p>
@@ -406,7 +406,7 @@
           .then((response) => response.json())
           .then((data) => {
             console.log(data);
-            fetch("/agentMove/?term=first")
+            fetch("/randommove/")
               .then((response) => response.json())
               .then((data) => {
                 console.log(data);
@@ -426,11 +426,36 @@
           .catch((error) => {
             console.error("Fetch error:", error);
           });
+        // document.getElementById("board").classList.remove("freeze");
+        // fetch("/sessionClear/")
+        //   .then((response) => response.json())
+        //   .then((data) => {
+        //     console.log(data);
+        //     fetch("/agentMove/?term=first")
+        //       .then((response) => response.json())
+        //       .then((data) => {
+        //         console.log(data);
+        //         // Then access specific keys
+        //         const value = "X"; // or "O"
+        //         const cell = document.querySelector(
+        //           `.cell[data-index="${data.cell}"]`
+        //         );
+        //         if (cell) {
+        //           cell.textContent = value;
+        //         }
+        //       })
+        //       .catch((error) => {
+        //         console.error("Fetch error:", error);
+        //       });
+        //   })
+        //   .catch((error) => {
+        //     console.error("Fetch error:", error);
+        //   });
       }
       cells.forEach((cell) => {
         cell.addEventListener("click", () => {
           count += 1;
-          console.log(count);
+          // console.log(count);
 
           const index = cell.dataset.index;
           const url = `/userMove/?cell=${index}`; // 🔁 Replace with your actual endpoint

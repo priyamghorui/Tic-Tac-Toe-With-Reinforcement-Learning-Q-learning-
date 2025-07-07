@@ -170,6 +170,84 @@
 #     epsilon = max(min_epsilon, epsilon * decay_rate)
 
 
+# # ************** This is for training phase(Here first move random by agent) **********************
+# Agent play move first :
+# epsilon = 1.0
+# min_epsilon = 0.01
+# decay_rate = 0.995
+# Q = {}
+# alpha = 0.1
+# gamma = 0.9
+
+# for episode in range(1000000):
+#     resetBoard()
+#     moveno=1
+#     while contains_zero():
+#         if(moveno==1):
+#             # print("111")
+#             state = tuple(arr.flatten())
+#             valid_actions = get_valid_actions()
+#             action = random.choice(valid_actions)
+#             print("Exploit:", action)
+#         else:
+#             # print("222")
+#             state = tuple(arr.flatten())
+#             valid_actions = get_valid_actions()
+
+
+#             if random.random() < epsilon:
+#                 action = random.choice(valid_actions)
+#                 print("Explore:", action)
+#             else:
+#                 q_values = [Q.get((state, a), 0) for a in valid_actions]
+#                 max_q = max(q_values)
+#                 best_actions = [a for a, q in zip(valid_actions, q_values) if q == max_q]
+#                 action = random.choice(best_actions)
+#                 print("Exploit:", action)
+
+#         agentInput(action[0], action[1])
+#         moveno=0
+
+#         done = False
+#         reward = 0
+
+#         if checkWin() == 4:
+#             reward = 1
+#             done = True
+#             print("Agent Wins!")
+#         elif not contains_zero():
+#             reward = 0.5
+#             done = True
+#             print("Draw!")
+#         else:
+#             sysInput()
+#             if checkWin() == 2:
+#                 reward = -1
+#                 done = True
+#                 print("Agent Loses!")
+#             elif not contains_zero():
+#                 reward = 0.5
+#                 done = True
+#                 print("Draw!")
+#             else:
+#                 reward = 0
+#                 done = False
+
+
+#         next_state = tuple(arr.flatten())
+#         next_valid_actions = get_valid_actions()
+#         max_next_q = max([Q.get((next_state, a), 0) for a in next_valid_actions], default=0)
+#         old_q = Q.get((state, action), 0)
+#         Q[(state, action)] = old_q + alpha * (reward + gamma * max_next_q - old_q)
+#         print(f"Q[{state}, {action}] = {Q[(state, action)]:.3f}")
+
+
+#         if done:
+#             break
+
+#     epsilon = max(min_epsilon, epsilon * decay_rate)
+
+
 
 
 
@@ -295,6 +373,54 @@
 #     elif not contains_zero():
 #         print("Draw!")
 #         break
+
+
+# # ******************* This is for testing phase(Here first move random by agent) **********************
+# Agent play move first :
+# resetBoard()
+# print("Starting test game...")
+# moveno=1
+# while contains_zero():
+#     if(moveno==1):
+#         print( "111")
+#         state = tuple(arr.flatten())
+#         valid_actions = get_valid_actions()
+#         # Always exploit (no exploration)
+#         action = random.choice(valid_actions)
+#     else:
+#         print("222")
+#         state = tuple(arr.flatten())
+#         valid_actions = get_valid_actions()
+
+#         # Always exploit (no exploration)
+#         q_values = [Q.get((state, a), 0) for a in valid_actions]
+#         max_q = max(q_values)
+#         best_actions = [a for a, q in zip(valid_actions, q_values) if q == max_q]
+#         action = random.choice(best_actions)
+#         print("Agent best_actions:", best_actions)
+
+
+#     agentInput(action[0], action[1])
+#     print("Agent move:", action)
+#     moveno=0
+#     if checkWin() == 4:
+#         print("Agent Wins!")
+#         break
+#     elif not contains_zero():
+#         print("Draw!")
+#         break
+#     print(arr)
+#     # sysInput()
+#     realuser()
+#     print(arr)
+#     print("Opponent moved.")
+
+#     if checkWin() == 2:
+#         print("Agent Loses!")
+#         break
+#     elif not contains_zero():
+#         print("Draw!")
+#         brea
 
 
 

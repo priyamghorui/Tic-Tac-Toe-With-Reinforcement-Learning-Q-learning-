@@ -30,6 +30,7 @@ urlpatterns = [
     path("sessionClear/", views.sessionClear,name="sessionClear"),
     path("status/", views.status,name="status"),
     path("agentmovesecond/", views.agentmovesecond,name="agentmovesecond"),
+    path("randommove/", views.randommove,name="randommove"),
 
 
 

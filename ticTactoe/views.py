@@ -7,15 +7,41 @@ import json
 from django.conf import settings
 from django.http import HttpResponseRedirect
 def index(request):
-    request.session.clear()
+    if request.session:
+        request.session.clear()
     return render(request,"index.html")
 def agentmovesecond(request):
-    request.session.clear()
+    if request.session:
+        request.session.clear()
     return render(request,"agentmovesecond.html")
+def randommove(request):
+    board = request.session.get('board') 
+    if board is not None:
+        arr = np.array(board)
+    else:
+        arr = resetBoard()
+    state = tuple(arr.flatten())
+    valid_actions = get_valid_actions(arr)
+    # Always exploit (no exploration)
+    action = random.choice(valid_actions)
+    # print("Agent best_actions:", best_actions)
+    result=agentInput(action[0], action[1],arr)
+    # print("Agent move:", action)
+    # print(arr)
+    request.session.clear()
+    request.session['board'] = result.tolist()
+    if checkWin(arr) == 4:
+        # print("Agent Wins!")
+        return JsonResponse({"cell":checkcell(action),"result":"Agent Win"}) 
+    elif not contains_zero(arr):
+        # print("Draw!")
+        return JsonResponse({"cell":checkcell(action),"result":"Draw"}) 
+    else:
+        return JsonResponse({"cell":checkcell(action),"result":"online"}) 
 def agentMove(request):
     
     file_path_second = os.path.join(settings.BASE_DIR, 'ticTactoe', 'q_table_# Agent play move second 100000.pkl')
-    file_path_first = os.path.join(settings.BASE_DIR, 'ticTactoe', 'q_table_# Agent play move first #500000.pkl')
+    file_path_first = os.path.join(settings.BASE_DIR, 'ticTactoe', 'q_table_# Agent play move first ##modify1000000.pkl')
     if(request.GET.get('term')=="second"):
         with open(file_path_second, "rb") as f:
             QL = pickle.load(f)
@@ -36,20 +62,20 @@ def agentMove(request):
     action = random.choice(best_actions)
     # print("Agent best_actions:", best_actions)
     result=agentInput(action[0], action[1],arr)
-    print("Agent move:", action)
+    # print("Agent move:", action)
     # print(arr)
     request.session.clear()
     request.session['board'] = result.tolist()
     if checkWin(arr) == 4:
-        print("Agent Wins!")
+        # print("Agent Wins!")
         return JsonResponse({"cell":checkcell(action),"result":"Agent Win"}) 
     elif not contains_zero(arr):
-        print("Draw!")
+        # print("Draw!")
         return JsonResponse({"cell":checkcell(action),"result":"Draw"}) 
     else:
         return JsonResponse({"cell":checkcell(action),"result":"online"}) 
 def userMove(request):
-    print(request.GET.get('cell'))
+    # print(request.GET.get('cell'))
     board = request.session.get('board')  
     if board is not None:
         board = np.array(board)
@@ -57,7 +83,7 @@ def userMove(request):
         board = resetBoard()
     # board = np.array(board)
     result=realuser(int(request.GET.get('cell')),board)
-    print(type(result)) 
+    # print(type(result)) 
     request.session.clear()
     request.session['board'] = result.tolist()
     # return JsonResponse({'result':"Done"}) 
@@ -80,7 +106,7 @@ def move(request):
 def status(request):
     board = request.session.get('board', [[0]*3 for _ in range(3)])  # default if not found
     board = np.array(board)
-    print(board)
+    # print(board)
     return JsonResponse({'result':board.tolist()}) 
 
 
