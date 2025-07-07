@@ -7,12 +7,8 @@ import json
 from django.conf import settings
 from django.http import HttpResponseRedirect
 def index(request):
-    if request.session:
-        request.session.clear()
     return render(request,"index.html")
 def agentmovesecond(request):
-    if request.session:
-        request.session.clear()
     return render(request,"agentmovesecond.html")
 def randommove(request):
     board = request.session.get('board') 
