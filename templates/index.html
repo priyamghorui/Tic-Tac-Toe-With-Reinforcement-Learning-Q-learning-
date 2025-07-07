@@ -401,11 +401,6 @@
       }
       function agenticMove() {
         resetBoard();
-        document.getElementById("board").classList.remove("freeze");
-        fetch("/sessionClear/")
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data);
             fetch("/randommove/")
               .then((response) => response.json())
               .then((data) => {
@@ -422,10 +417,7 @@
               .catch((error) => {
                 console.error("Fetch error:", error);
               });
-          })
-          .catch((error) => {
-            console.error("Fetch error:", error);
-          });
+          document.getElementById("board").classList.remove("freeze");
         // document.getElementById("board").classList.remove("freeze");
         // fetch("/sessionClear/")
         //   .then((response) => response.json())
