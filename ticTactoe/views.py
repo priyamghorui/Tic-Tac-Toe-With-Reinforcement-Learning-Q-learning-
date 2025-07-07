@@ -93,8 +93,12 @@ def userMove(request):
         return JsonResponse({"result":"online"}) 
        
 def sessionClear(request):
-    request.session.clear()
-    return JsonResponse({'result':"Done"}) 
+    try:
+        request.session.clear()
+        return JsonResponse({'result':"Done"}) 
+    except:
+        return JsonResponse({'result':"false"}) 
+
 
 def move(request):
     request.session.clear()
