@@ -13,11 +13,7 @@ def index(request):
 def agentmovesecond(request):
     return render(request,"agentmovesecond.html")
 def randommove(request):
-    board = request.session.get('board') 
-    if board is not None:
-        arr = np.array(board)
-    else:
-        arr = resetBoard()
+    arr = resetBoard()
     state = tuple(arr.flatten())
     valid_actions = get_valid_actions(arr)
     # Always exploit (no exploration)

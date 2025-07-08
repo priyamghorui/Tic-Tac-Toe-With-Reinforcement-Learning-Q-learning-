@@ -389,6 +389,7 @@
       // showWinLine([1, 5, 9])
       // showWinLine([3, 5, 7])
       const cells = document.querySelectorAll(".cell");
+
       let count = 0;
 
       function resetBoard() {
@@ -457,10 +458,9 @@
       }
       cells.forEach((cell) => {
         cell.addEventListener("click", () => {
-          count += 1;
-          // console.log(count);
-
-          const index = cell.dataset.index;
+          console.log(cell.innerText);
+          if (cell.innerText == "") {
+                      const index = cell.dataset.index;
           const url = `/userMove/?cell=${index}`; // 🔁 Replace with your actual endpoint
 
           // Send GET request
@@ -572,6 +572,9 @@
             .catch((error) => {
               console.error("Fetch error:", error);
             });
+          }
+
+
         });
       });
       function resetButton() {
