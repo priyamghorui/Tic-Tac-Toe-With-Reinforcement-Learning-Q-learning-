@@ -3,6 +3,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <title>Tic Tac Toe</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
@@ -135,12 +141,16 @@
             🤖 Reinforcement Learning Agent Info
           </h5>
 
-           <p class="card-text">
-        This project uses a <strong>Reinforcement Learning (Q-learning)</strong> agent trained through
-        <strong>10,00,000 self-play games</strong> when the agent plays <span class="text-success">first</span>,
-        and <strong>100,000 games</strong> when it plays <span class="text-danger">second</span>, both against a simulated opponent.
-        The agent learns optimal moves by updating a <strong>Q-table</strong> based on game rewards.
-      </p>
+          <p class="card-text">
+            This project uses a
+            <strong>Reinforcement Learning (Q-learning)</strong> agent trained
+            through <strong>10,00,000 self-play games</strong> when the agent
+            plays <span class="text-success">first</span>, and
+            <strong>100,000 games</strong> when it plays
+            <span class="text-danger">second</span>, both against a simulated
+            opponent. The agent learns optimal moves by updating a
+            <strong>Q-table</strong> based on game rewards.
+          </p>
 
           <div class="alert alert-info" role="alert">
             <strong>Agent Plays First:</strong> The agent starts the game and
@@ -195,8 +205,9 @@
       ></button>
     </div>
     <div id="status-message" class="text-center text-muted mb-3 fw-semibold">
-  Please wait for the agent to move after your turn. The server may take a moment to respond.
-</div>
+      Please wait for the agent to move after your turn. The server may take a
+      moment to respond.
+    </div>
     <div class="mainContain">
       <div class="board freeze" id="board">
         <div class="cell" data-index="1"></div>
@@ -401,23 +412,23 @@
       }
       function agenticMove() {
         resetBoard();
-            fetch("/randommove/")
-              .then((response) => response.json())
-              .then((data) => {
-                console.log(data);
-                // Then access specific keys
-                const value = "X"; // or "O"
-                const cell = document.querySelector(
-                  `.cell[data-index="${data.cell}"]`
-                );
-                if (cell) {
-                  cell.textContent = value;
-                }
-              })
-              .catch((error) => {
-                console.error("Fetch error:", error);
-              });
-          document.getElementById("board").classList.remove("freeze");
+        fetch("/randommove/")
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            // Then access specific keys
+            const value = "X"; // or "O"
+            const cell = document.querySelector(
+              `.cell[data-index="${data.cell}"]`
+            );
+            if (cell) {
+              cell.textContent = value;
+            }
+          })
+          .catch((error) => {
+            console.error("Fetch error:", error);
+          });
+        document.getElementById("board").classList.remove("freeze");
         // document.getElementById("board").classList.remove("freeze");
         // fetch("/sessionClear/")
         //   .then((response) => response.json())

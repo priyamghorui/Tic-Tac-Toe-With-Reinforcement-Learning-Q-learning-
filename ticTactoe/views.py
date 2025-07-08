@@ -6,6 +6,8 @@ import os
 import json
 from django.conf import settings
 from django.http import HttpResponseRedirect
+from django.views.decorators.cache import never_cache
+@never_cache
 def index(request):
     return render(request,"index.html")
 def agentmovesecond(request):
