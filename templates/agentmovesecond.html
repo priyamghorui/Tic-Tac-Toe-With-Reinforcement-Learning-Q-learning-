@@ -354,121 +354,125 @@
 
       cells.forEach((cell) => {
         cell.addEventListener("click", () => {
-          count += 1;
-          console.log(count);
+          if (cell.innerText == "") {
+            document.getElementById("board").classList.add("freeze");
+            const index = cell.dataset.index;
+            const url = `/userMove/?cell=${index}`; // 🔁 Replace with your actual endpoint
 
-          const index = cell.dataset.index;
-          const url = `/userMove/?cell=${index}`; // 🔁 Replace with your actual endpoint
+            // Send GET request
 
-          // Send GET request
-
-          fetch(url)
-            .then((response) => response.json())
-            .then((data) => {
-              const value = "O"; // or "O"
-              const cell = document.querySelector(
-                `.cell[data-index="${index}"]`
-              );
-              if (cell) {
-                cell.textContent = value;
-              }
-              // console.log(data);
-              // Then access specific keys
-              if (data.result == "Draw") {
-                console.log("Draw");
-                document.getElementById("board").classList.add("freeze");
-                // alert("Game Draw"); // or show modal/message
-                showGameAlert("It's a Draw!", "warning");
-
-                fetch("/sessionClear/")
-                  .then((response) => response.json())
-                  .then((data) => {
-                    console.log(data);
-                  })
-                  .catch((error) => {
-                    console.error("Fetch error:", error);
-                  });
-              } else if (data.result == "Agent Loss") {
-                console.log("Agent Loss");
-
-                const combo = findWinComboFromBoard("O"); // or "O" depending on who won
-                // console.log(combo);
-                showGameAlert("You Win 🎉🎉 ! Agent Loss", "success");
-
-                if (combo) {
-                  showWinLine(combo);
+            fetch(url)
+              .then((response) => response.json())
+              .then((data) => {
+                const value = "O"; // or "O"
+                const cell = document.querySelector(
+                  `.cell[data-index="${index}"]`
+                );
+                if (cell) {
+                  cell.textContent = value;
                 }
+                // console.log(data);
+                // Then access specific keys
+                if (data.result == "Draw") {
+                  // console.log("Draw");
+                  document.getElementById("board").classList.add("freeze");
+                  // alert("Game Draw"); // or show modal/message
+                  showGameAlert("It's a Draw!", "warning");
 
-                document.getElementById("board").classList.add("freeze");
-                // alert("Agent Loss"); // or show modal/message
-                fetch("/sessionClear/")
-                  .then((response) => response.json())
-                  .then((data) => {
-                    console.log(data);
-                  })
-                  .catch((error) => {
-                    console.error("Fetch error:", error);
-                  });
-              }
+                  fetch("/sessionClear/")
+                    .then((response) => response.json())
+                    .then((data) => {
+                      // console.log(data);
+                    })
+                    .catch((error) => {
+                      console.error("Fetch error:", error);
+                    });
+                } else if (data.result == "Agent Loss") {
+                  // console.log("Agent Loss");
 
-              if (
-                !document.getElementById("board").classList.contains("freeze")
-              ) {
-                fetch("/agentMove/?term=second")
-                  .then((response) => response.json())
-                  .then((data) => {
-                    // console.log(data);
-                    const value = "X"; // or "O"
-                    const cell = document.querySelector(
-                      `.cell[data-index="${data.cell}"]`
-                    );
-                    if (cell) {
-                      cell.textContent = value;
-                    }
-                    if (data.result == "Draw") {
-                      console.log("Draw");
-                      document.getElementById("board").classList.add("freeze");
-                      // alert("Game Draw"); // or show modal/message
-                      showGameAlert("It's a Draw!", "warning");
+                  const combo = findWinComboFromBoard("O"); // or "O" depending on who won
+                  // console.log(combo);
+                  showGameAlert("You Win 🎉🎉 ! Agent Loss", "success");
 
-                      fetch("/sessionClear/")
-                        .then((response) => response.json())
-                        .then((data) => {
-                          console.log(data);
-                        })
-                        .catch((error) => {
-                          console.error("Fetch error:", error);
-                        });
-                    } else if (data.result == "Agent Win") {
-                      console.log("Agent Win");
-                      const combo = findWinComboFromBoard("X"); // or "O" depending on who won
-                      showGameAlert("You Loss ! Agent Loss", "danger");
+                  if (combo) {
+                    showWinLine(combo);
+                  }
 
-                      if (combo) {
-                        showWinLine(combo);
+                  document.getElementById("board").classList.add("freeze");
+                  // alert("Agent Loss"); // or show modal/message
+                  fetch("/sessionClear/")
+                    .then((response) => response.json())
+                    .then((data) => {
+                      // console.log(data);
+                    })
+                    .catch((error) => {
+                      console.error("Fetch error:", error);
+                    });
+                } else {
+                  fetch("/agentMove/?term=second")
+                    .then((response) => response.json())
+                    .then((data) => {
+                      // console.log(data);
+                      const value = "X"; // or "O"
+                      const cell = document.querySelector(
+                        `.cell[data-index="${data.cell}"]`
+                      );
+                      if (cell) {
+                        cell.textContent = value;
                       }
+                      if (data.result == "Draw") {
+                        // console.log("Draw");
+                        document
+                          .getElementById("board")
+                          .classList.add("freeze");
+                        // alert("Game Draw"); // or show modal/message
+                        showGameAlert("It's a Draw!", "warning");
 
-                      document.getElementById("board").classList.add("freeze");
-                      // alert("Agent Win"); // or show modal/message
-                      fetch("/sessionClear/")
-                        .then((response) => response.json())
-                        .then((data) => {
-                          console.log(data);
-                        })
-                        .catch((error) => {
-                          console.error("Fetch error:", error);
-                        });
-                    }
-                    // Then access specific keys
-                  })
-                  .catch((error) => {
-                    console.error("Fetch error:", error);
-                  });
-              }
-            })
-            .catch((error) => {
-              console.error("Fetch error:", error);
-            });
+                        fetch("/sessionClear/")
+                          .then((response) => response.json())
+                          .then((data) => {
+                            // console.log(data);
+                          })
+                          .catch((error) => {
+                            console.error("Fetch error:", error);
+                          });
+                      } else if (data.result == "Agent Win") {
+                        // console.log("Agent Win");
+                        const combo = findWinComboFromBoard("X"); // or "O" depending on who won
+                        showGameAlert("You Loss ! Agent Loss", "danger");
+
+                        if (combo) {
+                          showWinLine(combo);
+                        }
+
+                        document
+                          .getElementById("board")
+                          .classList.add("freeze");
+                        // alert("Agent Win"); // or show modal/message
+                        fetch("/sessionClear/")
+                          .then((response) => response.json())
+                          .then((data) => {
+                            // console.log(data);
+                          })
+                          .catch((error) => {
+                            console.error("Fetch error:", error);
+                          });
+                      } else {
+                        document
+                          .getElementById("board")
+                          .classList.remove("freeze");
+                      }
+                      // Then access specific keys
+                    })
+                    .catch((error) => {
+                      console.error("Fetch error:", error);
+                    });
+                }
+              })
+              .catch((error) => {
+                console.error("Fetch error:", error);
+              });
+          }
         });
       });
       function resetButton() {
@@ -478,7 +482,7 @@
         fetch("/sessionClear/")
           .then((response) => response.json())
           .then((data) => {
-            console.log(data);
+            // console.log(data);
           })
           .catch((error) => {
             console.error("Fetch error:", error);
