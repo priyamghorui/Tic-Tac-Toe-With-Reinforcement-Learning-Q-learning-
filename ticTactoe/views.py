@@ -22,7 +22,7 @@ def randommove(request):
     result=agentInput(action[0], action[1],arr)
     # print("Agent move:", action)
     # print(arr)
-    request.session.clear()
+    request.session.flush()
     request.session['board'] = result.tolist()
     if checkWin(arr) == 4:
         # print("Agent Wins!")
@@ -58,7 +58,7 @@ def agentMove(request):
     result=agentInput(action[0], action[1],arr)
     # print("Agent move:", action)
     # print(arr)
-    request.session.clear()
+    request.session.flush()
     request.session['board'] = result.tolist()
     if checkWin(arr) == 4:
         # print("Agent Wins!")
@@ -78,7 +78,7 @@ def userMove(request):
     # board = np.array(board)
     result=realuser(int(request.GET.get('cell')),board)
     # print(type(result)) 
-    request.session.clear()
+    request.session.flush()
     request.session['board'] = result.tolist()
     # return JsonResponse({'result':"Done"}) 
     if checkWin(board) == 2:
@@ -92,14 +92,14 @@ def userMove(request):
        
 def sessionClear(request):
     try:
-        request.session.clear()
+        request.session.flush()
         return JsonResponse({'result':"Done"}) 
     except:
         return JsonResponse({'result':"false"}) 
 
 
 def move(request):
-    request.session.clear()
+    request.session.flush()
     return HttpResponseRedirect(f'/')
 def status(request):
     board = request.session.get('board', [[0]*3 for _ in range(3)])  # default if not found
